@@ -1,0 +1,31 @@
+configuration {
+	modes: "window,drun,run,ssh";
+	font: "JetBrains Mono 12";
+
+	location: 7;
+	yoffset:-5;
+	xoffset: 5;
+
+	width: 900;
+
+	fixed-num-lines: false;
+
+  timeout {
+      action: "kb-cancel";
+      delay:  0;
+  }
+
+  filebrowser {
+      directories-first: true;
+      sorting-method:    "name";
+  }
+}
+
+listview {
+	lines: 5;
+	columns: 1;
+}
+
+window {
+	width: 30%;
+}
