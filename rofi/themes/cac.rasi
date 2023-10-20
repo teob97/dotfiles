@@ -1,0 +1,22 @@
+* {
+	/* __cac:start */	 
+	background: #1d1f21;
+	foreground: #c5c8c6;
+	dimblack: #282a2e;
+	dimred: #a54242;
+	dimgreen: #8c9440;
+	dimyellow: #de935f;
+	dimblue: #5f819d;
+	dimmagenta: #85678f;
+	dimcyan: #5e8d87;
+	dimwhite: #707880;
+	brightblack: #373b41;
+	brightred: #cc6666;
+	brightgreen: #b5bd68;
+	brightyellow: #f0c674;
+	brightblue: #81a2be;
+	brightmagenta: #b294bb;
+	brightcyan: #8abeb7;
+	brightwhite: #c5c8c6;
+	/* __cac:end  */
+}

@@ -1,0 +1,390 @@
+#!/usr/bin/env python
+#
+# cac: adjust colorschemes automatically
+
+import argparse
+import json
+import os
+from math import ceil
+
+START_MARKER = "__cac:start"
+END_MARKER = "__cac:end"
+
+CONFIG_HOME = os.getenv("XDG_CONFIG_HOME", default=f"{os.getenv('HOME')}/.config")
+
+parser = argparse.ArgumentParser(
+    description="cac adjusts colorschemes:\
+    download a colorscheme JSON from https://terminal.sexy, place it in\
+    $XDG_CONFIG_HOME/cac, and run cac."
+)
+parser.add_argument(
+    "scheme",
+    default=None,
+    help="the name of a colorscheme in $XDG_CONFIG_HOME/cac",
+)
+parser.add_argument(
+    "--no-reload",
+    default=False,
+    action="store_true",
+    dest="no_reload",
+    help="don't run post-format hooks to apply the colorschemes",
+)
+args = parser.parse_args()
+
+colors = {}
+scheme_loc = CONFIG_HOME + "/cac/" + args.scheme + ".json"
+try:
+    scheme = json.load(open(scheme_loc))
+except FileNotFoundError:
+    print(f"No colorscheme found at {scheme_loc}.")
+
+colors["background"] = scheme["background"][1:]
+colors["foreground"] = scheme["foreground"][1:]
+colors["dim_black"] = scheme["color"][0][1:]
+colors["dim_red"] = scheme["color"][1][1:]
+colors["dim_green"] = scheme["color"][2][1:]
+colors["dim_yellow"] = scheme["color"][3][1:]
+colors["dim_blue"] = scheme["color"][4][1:]
+colors["dim_magenta"] = scheme["color"][5][1:]
+colors["dim_cyan"] = scheme["color"][6][1:]
+colors["dim_white"] = scheme["color"][7][1:]
+colors["bright_black"] = scheme["color"][8][1:]
+colors["bright_red"] = scheme["color"][9][1:]
+colors["bright_green"] = scheme["color"][10][1:]
+colors["bright_yellow"] = scheme["color"][11][1:]
+colors["bright_blue"] = scheme["color"][12][1:]
+colors["bright_magenta"] = scheme["color"][13][1:]
+colors["bright_cyan"] = scheme["color"][14][1:]
+colors["bright_white"] = scheme["color"][15][1:]
+
+
+class CacError(Exception):
+    pass
+
+
+class ColorFormatter:
+    color_names = {}
+    color_fmt = ""
+    config_file = ""
+
+    @classmethod
+    def change_colors(cls):
+        """Change the colors of `file`.
+
+        names is be a dictionary mapping the names used in colors to the names
+            to be used in the file.
+
+        colorfmt is an fstring which may use the following variables:
+            name: the name of the color, according to names
+            col_hex: the color's hex
+        """
+
+        out = ""
+        try:
+            with open(cls.config_file, "r") as f:
+                while (line := f.readline()) and START_MARKER not in line:
+                    out = out + line
+                if not line:
+                    raise CacError(f"could not find the start marker: {START_MARKER}")
+                out = out + line
+                out = out + cls.process_colorfmt()
+                while (line := f.readline()) and END_MARKER not in line:
+                    pass
+                if not line:
+                    raise CacError(f"could not find the end marker: {END_MARKER}")
+                out = out + line
+                while line := f.readline():
+                    out = out + line
+            with open(cls.config_file, "w") as f:
+                f.write(out)
+        except FileNotFoundError:
+            raise CacError(f"could not find the config file: {cls.config_file}")
+        return True
+
+    @classmethod
+    def process_colorfmt(cls):
+        out = ""
+        for name, col_hex in colors.items():
+            out = (
+                out
+                + cls.color_fmt.format(name=cls.color_names[name], col_hex=col_hex)
+                + "\n"
+            )
+        return out
+
+    def __init_subclass__(cls):
+        try:
+            cls.change_colors()
+            if not args.no_reload:
+                cls.post_format_hook()
+            print(f"{cls.__name__} formatted successfully")
+        except CacError as e:
+            print(f"{cls.__name__} could not be formatted: {e}")
+
+    @classmethod
+    def post_format_hook(cls):
+        pass
+
+
+# maps the color names we use internally to themselves
+INTERNAL_COLOR_NAMES = {
+    "background": "background",
+    "foreground": "foreground",
+    "dim_black": "dim_black",
+    "dim_red": "dim_red",
+    "dim_green": "dim_green",
+    "dim_yellow": "dim_yellow",
+    "dim_blue": "dim_blue",
+    "dim_magenta": "dim_magenta",
+    "dim_cyan": "dim_cyan",
+    "dim_white": "dim_white",
+    "bright_black": "bright_black",
+    "bright_red": "bright_red",
+    "bright_green": "bright_green",
+    "bright_yellow": "bright_yellow",
+    "bright_blue": "bright_blue",
+    "bright_magenta": "bright_magenta",
+    "bright_cyan": "bright_cyan",
+    "bright_white": "bright_white",
+}
+
+# a helpful set of names which use the ansi number
+NUMBERED_COLOR_NAMES = {
+    "background": "background",
+    "foreground": "foreground",
+    "dim_black": "color0",
+    "dim_red": "color1",
+    "dim_green": "color2",
+    "dim_yellow": "color3",
+    "dim_blue": "color4",
+    "dim_magenta": "color5",
+    "dim_cyan": "color6",
+    "dim_white": "color7",
+    "bright_black": "color8",
+    "bright_red": "color9",
+    "bright_green": "color10",
+    "bright_yellow": "color11",
+    "bright_blue": "color12",
+    "bright_magenta": "color13",
+    "bright_cyan": "color14",
+    "bright_white": "color15",
+}
+
+
+#class Kitty(ColorFormatter):
+#    """Doesn't autoformat."""
+#
+#    color_fmt = "{name} #{col_hex}"
+#    config_file = CONFIG_HOME + "/kitty/kitty.conf"
+#    color_names = NUMBERED_COLOR_NAMES
+
+
+class XResources(ColorFormatter):
+    color_fmt = "*{name}: #{col_hex}"
+    config_file = CONFIG_HOME + "/X11/xresources"
+    color_names = NUMBERED_COLOR_NAMES
+
+    @classmethod
+    def post_format_hook(cls):
+        os.system(f"xrdb {cls.config_file}")
+
+
+# class Alacritty(ColorFormatter):
+#     color_fmt = '{name}: "0x{col_hex}"'
+#     config_file = CONFIG_HOME + "/alacritty/alacritty.yml"
+#     color_names = {
+#         key: " " * 4
+#         + value.replace("dim_", "normal:\n      ").replace("bright_", "bright:\n      ")
+#         for key, value in INTERNAL_COLOR_NAMES.items()
+#     }
+
+
+# class XMonad(ColorFormatter):
+#     color_fmt = '{name} = "#{col_hex}"'
+#     config_file = CONFIG_HOME + "/xmonad/xmonad.hs"
+#     color_names = INTERNAL_COLOR_NAMES
+
+#     @classmethod
+#     def post_format_hook(_):
+#         os.system("xmonad --recompile; xmonad --restart")
+
+
+# class EWW(ColorFormatter):
+#     color_fmt = "${name}: #{col_hex};"
+#     config_file = CONFIG_HOME + "/eww/eww.scss"
+#     color_names = INTERNAL_COLOR_NAMES
+
+#     @classmethod
+#     def post_format_hook(_):
+#         os.system("eww reload")
+
+
+# class BetterDiscord(ColorFormatter):
+#     color_fmt = "  --{name}: #{col_hex};"
+#     config_file = CONFIG_HOME + "/BetterDiscord/themes/cac.theme.css"
+#     color_names = INTERNAL_COLOR_NAMES
+
+
+# class Telegram(ColorFormatter):
+#     color_fmt = "{name}: #{col_hex};"
+#     config_file = CONFIG_HOME + "/telegram/cac.tdesktop-theme"
+#     color_names = {
+#         key: "COLOR_" + value.upper() for key, value in INTERNAL_COLOR_NAMES.items()
+#     }
+
+
+# class Polybar(ColorFormatter):
+#     color_fmt = "{name} = #{col_hex}"
+#     config_file = CONFIG_HOME + "/polybar/config"
+#     color_names = INTERNAL_COLOR_NAMES
+
+#     # the background transparency as a percentage
+#     transparency = 80
+
+#     # overridden to allow adding transparency to the background
+#     @classmethod
+#     def process_colorfmt(cls):
+#         transparency = str(hex(ceil(cls.transparency * 256 / 100)))[2:]
+#         out = ""
+#         for name, col_hex in colors.items():
+#             if name == "background":
+#                 col_hex = transparency + col_hex
+
+#             out = (
+#                 out
+#                 + cls.color_fmt.format(name=cls.color_names[name], col_hex=col_hex)
+#                 + "\n"
+#             )
+#         return out
+
+
+class Rofi(ColorFormatter):
+    color_fmt = "\t{name}: #{col_hex};"
+    config_file = CONFIG_HOME + "/rofi/themes/cac.rasi"
+
+    # .rasi files don't let us use _s in variable names
+    color_names = {
+        key: value.replace("_", "") for key, value in INTERNAL_COLOR_NAMES.items()
+    }
+
+
+# class QuteBrowser(ColorFormatter):
+#     color_fmt = '    "{name}": "#{col_hex}",'
+#     config_file = CONFIG_HOME + "/qutebrowser/config.py"
+#     color_names = INTERNAL_COLOR_NAMES
+
+
+# class Tmux(ColorFormatter):
+#     color_fmt = '{name}="#{col_hex}"'
+#     config_file = CONFIG_HOME + "/tmux/tmux.conf"
+#     color_names = INTERNAL_COLOR_NAMES
+
+
+#class Dunst(ColorFormatter):
+#    color_fmt = '{name}="#{col_hex}"'
+#    config_file = CONFIG_HOME + "/dunst/gendunstrc"
+#    color_names = INTERNAL_COLOR_NAMES
+#
+#    @classmethod
+#    def post_format_hook(cls):
+#        os.system(f"bash {CONFIG_HOME}/dunst/gendunstrc")
+
+
+#class Zathura(ColorFormatter):
+#    color_fmt = '{name}="#{col_hex}"'
+#    config_file = CONFIG_HOME + "/zathura/genzathurarc"
+#    color_names = INTERNAL_COLOR_NAMES
+#
+#    @classmethod
+#    def post_format_hook(cls):
+#        os.system(f"bash {CONFIG_HOME}/zathura/genzathurarc")
+
+
+#class Trydactyl(ColorFormatter):
+#    color_fmt = "  --{name}: #{col_hex};"
+#    config_file = CONFIG_HOME + "/tridactyl/themes/cac.css"
+#    color_names = INTERNAL_COLOR_NAMES
+
+
+# class Waybar(ColorFormatter):
+#     color_fmt = "@define-color {name} #{col_hex};"
+#     config_file = CONFIG_HOME + "/waybar/style.css"
+#     # .css files don't let us use _s in variable names
+#     color_names = {
+#         key: value.replace("_", "-") for key, value in INTERNAL_COLOR_NAMES.items()
+#     }
+
+#     # # the background transparency as a percentage
+#     # transparency = 80
+
+#     # # overridden to allow adding transparency to the background
+#     # @classmethod
+#     # def process_colorfmt(cls):
+#     #     out = ""
+#     #     for name, col_hex in colors.items():
+#     #         if name == "background":
+#     #             # TODO: right now this is just a manual override
+#     #             col_hex = "rgba(26, 27, 38, 0.8)"
+#     #             fmt = cls.color_fmt.replace("#", "")
+#     #         else:
+#     #             fmt = cls.color_fmt
+
+#     #         out = out + fmt.format(name=cls.color_names[name], col_hex=col_hex) + "\n"
+#     #     return out
+
+
+#class Qtile(ColorFormatter):
+#    color_fmt = '    {name} = "{col_hex}"'
+#    config_file = CONFIG_HOME + "/qtile/core/settings.py"
+#    color_names = {key: value.upper() for key, value in INTERNAL_COLOR_NAMES.items()}
+
+
+#class Foot(ColorFormatter):
+#    color_fmt = "{name}={col_hex}"
+#    config_file = CONFIG_HOME + "/foot/foot.ini"
+#    color_names = {
+#        "background": "background",
+#        "foreground": "foreground",
+#        "dim_black": "regular0",
+#        "dim_red": "regular1",
+#        "dim_green": "regular2",
+#        "dim_yellow": "regular3",
+#        "dim_blue": "regular4",
+#        "dim_magenta": "regular5",
+#        "dim_cyan": "regular6",
+#        "dim_white": "regular7",
+#        "bright_black": "bright0",
+#        "bright_red": "bright1",
+#        "bright_green": "bright2",
+#        "bright_yellow": "bright3",
+#        "bright_blue": "bright4",
+#        "bright_magenta": "bright5",
+#        "bright_cyan": "bright6",
+#        "bright_white": "bright7",
+#    }
+
+
+#class Nvim(ColorFormatter):
+#    color_fmt = "let s:{name}='#{col_hex}'"
+#    config_file = CONFIG_HOME + "/nvim/colors/cac.vim"
+#    color_names = INTERNAL_COLOR_NAMES
+
+
+# let s:black        = 'Black'
+# let s:white        = 'White'
+# let s:fg           = 'White'
+# let s:grey         = 'LightGray'
+# let s:dimgrey      = 'LightGray'
+# let s:red          = 'DarkRed'
+# let s:green        = 'DarkGreen'
+# let s:yellow       = 'DarkYellow'
+# let s:blue         = 'DarkBlue'
+# let s:magenta      = 'DarkMagenta'
+# let s:cyan         = 'DarkCyan'
+# let s:dimred       = 'Red'
+# let s:dimgreen     = 'Green'
+# let s:dimyellow    = 'Yellow'
+# let s:dimblue      = 'Blue'
+# let s:dimmagenta   = 'Magenta'
+# let s:dimcyan      = 'Cyan'
+# let s:brightyellow = 'DarkYellow'

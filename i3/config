@@ -185,7 +185,7 @@ bindsym $mod+r mode "resize"
 
 focus_follows_mouse no
 
-default_border pixel 1
+default_border pixel 2
 hide_edge_borders smart
 gaps inner 3px
 gaps outer 1px
