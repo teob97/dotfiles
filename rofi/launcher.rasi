@@ -1,0 +1,100 @@
+/* based on the theme https://raw.githubusercontent.com/davatorium/rofi-themes/master/User%20Themes/material.rasi */
+
+@import "cac.rasi"
+
+* {
+	spacing: 0;
+	background-color: transparent;
+        color: @foregroud;
+	font: "JetBrainsMono Nerd Font 13";
+}
+
+element-text {
+      background-color: inherit;
+      text-color:       inherit;
+}
+
+
+window {
+	background-color: @background;
+	transparency: "real";
+        width: 25%;
+	border:5px;
+	border-color: @brightred;
+}
+
+mainbox {
+	children: [inputbar, message, listview];
+	spacing: 10px;
+	padding: 10px 0;
+}
+
+
+inputbar {
+	margin: 0 22px;
+	padding: 10px 8px;
+	background-color: @brightblack;
+	children: [prompt, textbox-prompt-space, entry, case-indicator];
+}
+
+textbox-prompt-space {
+	expand: false;
+	str: " ";
+	margin: 0 0 0 0;
+	color: @dimmagenta;
+}
+
+prompt {
+	color: @brightred;
+}
+
+entry {
+	color: @foreground;
+}
+
+case-indicator {
+	color: @brightred;
+}
+
+listview {
+	scrollbar: false;
+	columns: 1;
+	lines: 6;
+}
+
+scrollbar {
+	background-color: @brightblack;
+	handle-color: @brightred;
+	handle-width: 5px;
+	margin: 0 0 0 10px;
+}
+
+element {
+	padding: 5px;
+	highlight: bold underline;
+        color: @foreground;
+}
+
+element normal {
+	background-color: transparent;
+        color: @foreground;
+}
+
+element selected {
+	background-color: @brightred;
+        color: @background;
+}
+
+element normal normal, element alternate normal {
+	color: @foreground;
+}
+
+element normal urgent, element selected urgent, element alternate urgent {
+	color: @brightred;
+}
+
+element normal active, element selected active, element alternate active {
+	color: @brightgreen;
+}
+
+/* vim:ft=css
