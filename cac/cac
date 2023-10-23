@@ -189,6 +189,10 @@ class XResources(ColorFormatter):
     def post_format_hook(cls):
         os.system(f"xrdb {cls.config_file}")
 
+class i3(ColorFormatter):
+    color_fmt = "set ${name} #{col_hex}"
+    config_file = CONFIG_HOME + "/i3/config"
+    color_names = INTERNAL_COLOR_NAMES
 
 # class Alacritty(ColorFormatter):
 #     color_fmt = '{name}: "0x{col_hex}"'
