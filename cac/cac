@@ -11,6 +11,7 @@ START_MARKER = "__cac:start"
 END_MARKER = "__cac:end"
 
 CONFIG_HOME = os.getenv("XDG_CONFIG_HOME", default=f"{os.getenv('HOME')}/.config")
+TILDE_HOME = os.getenv('HOME')
 
 parser = argparse.ArgumentParser(
     description="cac adjusts colorschemes:\
@@ -32,7 +33,7 @@ parser.add_argument(
 args = parser.parse_args()
 
 colors = {}
-scheme_loc = CONFIG_HOME + "/cac/" + args.scheme + ".json"
+scheme_loc = CONFIG_HOME + "/cac/" + args.scheme
 try:
     scheme = json.load(open(scheme_loc))
 except FileNotFoundError:
@@ -181,7 +182,7 @@ NUMBERED_COLOR_NAMES = {
 
 class XResources(ColorFormatter):
     color_fmt = "*{name}: #{col_hex}"
-    config_file = CONFIG_HOME + "/X11/xresources"
+    config_file = TILDE_HOME + "/.Xresources"
     color_names = NUMBERED_COLOR_NAMES
 
     @classmethod
