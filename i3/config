@@ -184,9 +184,9 @@ focus_follows_mouse no
 
 default_border pixel 2
 hide_edge_borders smart
-gaps inner 4px
+gaps inner 3px
 gaps outer 3px
-smart_gaps on
+#smart_gaps on
 
 # __cac:start
 set $background #1c2023
