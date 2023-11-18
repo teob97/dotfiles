@@ -6,11 +6,10 @@
 	spacing: 0;
 	background-color: transparent;
         color: @foregroud;
-	font: "JetBrainsMono 30";
+	font: "JetBrainsMono 25";
 }
 
 element-text {
-	vertical-align: 0.5;
 	background-color: inherit;
 	text-color:       inherit;
 }
@@ -42,9 +41,6 @@ case-indicator {
 }
 
 listview {
-	flows: horizontal;
-	columns: 10;
-	lines: 1;
 	spacing: 20;
 	scrollbar: false;
 }
