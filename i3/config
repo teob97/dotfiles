@@ -57,7 +57,7 @@ bindsym $mod+Shift+q kill
 bindsym $mod+space exec "rofi -modi drun,run -show drun"
 
 # Power menu, need to install rofi-power-menu from AUR 
-bindsym $mod+p exec "rofi -show power-menu -modi power-menu:~/.config/rofi/rofi-power-menu"
+bindsym $mod+p exec "rofi -show power-menu -modi power-menu:~/.config/rofi/power_menu/rofi-power-menu -config ~/.config/rofi/power_menu/config.rasi"
 
 # change focus
 bindsym $mod+j focus left
