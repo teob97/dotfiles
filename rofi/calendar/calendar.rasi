@@ -1,6 +1,10 @@
 configuration {
     	font:                     	"JetBrains Mono 12";
-    	show-icons:   		      	false;
+    	
+	location:			6;
+	yoffset:			-43;
+	
+	show-icons:   		      	false;
     	display-drun: 			":";
     	drun-display-format:       	"{name}";
     	threads:                	0;
@@ -14,17 +18,12 @@ configuration {
 @import "cac.rasi"
 
 window {
-    	transparency:                   "real";
     	background-color:               @background;
     	text-color:                     @foreground;
-	border:				1px;
+	border:				3px;
     	border-radius:                  0px;
    	border-color:			@selected;
     	width:                          384px;
-    	location:                       center;
-    	anchor:                         center;
-    	x-offset:                       0;
-    	y-offset:                       0;
 }
 
 prompt {
@@ -35,25 +34,25 @@ prompt {
 }
 
 textbox-prompt-colon {
-	expand: 						false;
-	str: 							"";
-    background-color:               @background;
-    text-color:                     @urgent;
-    padding:                        5px 0px 0px 4px;
-	font:							"feather 10";
+	expand:			false;
+	str:			"";
+    	background-color:	@background;
+    	text-color:		@urgent;
+    	padding:		5px 0px 0px 4px;
+	font:			"JetBrains Mono 10";
 }
 
 inputbar {
-	children: 						[ textbox-prompt-colon, prompt ];
-    background-color:               @background;
-    text-color:                     @foreground;
-    expand:                         false;
-    border:                  		0px 0px 1px 0px;
-    border-radius:                  0px;
-    border-color:                  	@selected;
-    margin:                         0px 0px 0px 0px;
-    padding:                        0px 0px 0px 0px;
-    position:                       center;
+	children: [ textbox-prompt-colon, prompt ];
+    	background-color:	@background;
+    	text-color:      	@foreground;
+    	expand:                	false;
+    	border:          	0px 0px 1px 0px;
+    	border-radius:    	0px;
+    	border-color:      	@selected;
+    	margin:              	0px 0px 0px 0px;
+    	padding:            	0px 0px 0px 0px;
+    	position:           	center;
 }
 
 
@@ -76,13 +75,13 @@ case-indicator {
 
 
 listview {
-    background-color:               @background;
-    columns:                        9;
-    lines:							7;
-    spacing:                        5px;
-    cycle:                          true;
-    dynamic:                        true;
-    layout:                         vertical;
+    background-color: 	@background;
+    columns:          	9;
+    lines:		7;
+    spacing:          	5px;
+    cycle:          	true;
+    dynamic:          	true;
+    layout:        	vertical;
 }
 
 mainbox {
@@ -93,13 +92,13 @@ mainbox {
 }
 
 element {
-    background-color:               @background;
-    text-color:                     @foreground;
-    orientation:                    horizontal;
-	border:							0px;
-    border-radius:                  0px;
-    border-color:					@selected;
-    padding:                        5px 5px 5px 5px;
+    	background-color:    	@background;
+    	text-color:          	@foreground;
+    	orientation:        	horizontal;
+	border:			0px;
+    	border-radius:		0px;
+    	border-color:		@selected;
+    	padding:       		5px 5px 5px 5px;
 }
 
 element-icon {
@@ -108,10 +107,10 @@ element-icon {
 }
 
 element-text {
-    font:							"Iosevka 12";
+    font:		"JetBrains Mono 12";
     expand:                         true;
-    horizontal-align:               0;
-    vertical-align:                 0;
+    horizontal-align:               0.5;
+    vertical-align:                 0.5;
     margin:                         2px 0px 2px 2px;
 }
 

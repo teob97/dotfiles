@@ -1,5 +1,6 @@
 * {
-	/* __cac:start */	 
+
+/* __cac:start */	 
 	background: #1c2023;
 	foreground: #c7ccd1;
 	dimblack: #1c2023;
@@ -18,5 +19,12 @@
 	brightmagenta: #c795ae;
 	brightcyan: #95aec7;
 	brightwhite: #f3f4f5;
-	/* __cac:end  */
+/* __cac:end  */
+
+/* Calendar palette */	
+	selected: @dimgreen;
+	urgent: @brightgreen;
+	on: @dimred;
+	off: @brightred;
+
 }
