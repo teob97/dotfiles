@@ -215,6 +215,6 @@ client.unfocused $dim_black $dim_black $foreground $dim_black $dim_black
 
 exec_always --no-startup-id xrdb -merge $HOME/.config/xresources/.Xresources
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-exec_always --no-startup-id feh --bg-scale $HOME/.config/wallpaper/img.jpg
+exec_always --no-startup-id feh --bg-scale $HOME/.config/wallpaper/img.png
 exec_always --no-startup-id autotiling
 exec_always --no-startup-id nm-applet
