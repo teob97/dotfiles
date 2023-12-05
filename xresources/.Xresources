@@ -1,6 +1,6 @@
 *.utf8:1
-*.faceName:JetBrains Mono
-*.faceSize:12
+*.faceName:JetBrainsMono Nerd Font
+*.faceSize:14
 ! __cac:start
 *background: #1c2023
 *foreground: #c7ccd1

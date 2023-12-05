@@ -6,7 +6,6 @@
 	spacing: 0;
 	background-color: transparent;
         color: @foregroud;
-	font: "JetBrainsMono 25";
 }
 
 element-text {

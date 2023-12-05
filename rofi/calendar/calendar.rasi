@@ -1,5 +1,5 @@
 configuration {
-    	font:                     	"JetBrains Mono 12";
+    	font:                     	"JetBrainsMono Nerd Font 12";
     	
 	location:			6;
 	yoffset:			-43;
