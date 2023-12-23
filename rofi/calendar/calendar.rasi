@@ -2,7 +2,7 @@ configuration {
     	font:                     	"JetBrainsMono Nerd Font 12";
     	
 	location:			6;
-	yoffset:			-43;
+	yoffset:			-48;
 	
 	show-icons:   		      	false;
     	display-drun: 			":";
