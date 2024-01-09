@@ -1,6 +1,8 @@
 *.utf8:1
 *.faceName:JetBrainsMono Nerd Font
 *.faceSize:14
+*.selectToClipboard:true
+*.internalBorder: 8
 ! __cac:start
 *background: #1c2023
 *foreground: #c7ccd1
