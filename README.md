@@ -11,3 +11,4 @@ Required packages:
 - xterm
 - xss-lock
 - xsecurelock
+- flameshot
