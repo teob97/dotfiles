@@ -210,3 +210,6 @@ exec_always --no-startup-id feh --bg-scale $HOME/.config/wallpaper/img.png
 exec_always --no-startup-id autotiling
 exec_always --no-startup-id nm-applet
 exec_always --no-startup-id xset -b
+
+#My bindsym
+bindsym Print exec flameshot gui
