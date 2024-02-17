@@ -17,6 +17,8 @@ packages_yay=(
 	"lightdm-mini-greeter"
 )
 
+sudo pacman -S ${packages[*]}
+
 if pacman -Qq yay &>/dev/null; 
 then
 	echo "yay is already installed"
@@ -27,7 +29,6 @@ else
 	makepkg -si
 fi
 
-sudo pacman -S ${packages[*]}
 yay -S ${packages_yay[*]}
 
 git clone https://github.com/teb97/dotfiles ~/.config
