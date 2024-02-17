@@ -28,4 +28,6 @@ else
 fi
 
 sudo pacman -S ${packages[*]}
-yay -S ${packages_yay[*]} 
+yay -S ${packages_yay[*]}
+
+git clone https://github.com/teb97/dotfiles ~/.config
