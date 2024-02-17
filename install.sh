@@ -3,7 +3,7 @@
 packages=(
 	"git" 
 	"base-devel"
-	"uxterm"
+	"xterm"
 	"i3-wm"
 	"polybar"
 	"rofi"
