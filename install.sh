@@ -4,6 +4,7 @@ packages=(
 	"git" 
 	"base-devel"
 	"xterm"
+	"lightdm"
 	"i3-wm"
 	"polybar"
 	"rofi"
@@ -31,4 +32,4 @@ fi
 
 yay -S ${packages_yay[*]}
 
-git clone https://github.com/teb97/dotfiles ~/.config
+git clone https://github.com/teb97/dotfiles ~/.config/
