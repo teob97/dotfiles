@@ -3,19 +3,21 @@
 packages=(
 	"git" 
 	"base-devel"
+	"ttf-jetbrains-mono-nerd"
 	"xterm"
-	"lightdm"
-	"i3-wm"
+#	"lightdm"
+#	"i3-wm"
 	"polybar"
 	"rofi"
 	"feh"
 	"network-manager-applet"
+	"xss-lock"
+	"xsecurelock"
 	"flameshot"
 )
 
 packages_yay=(
 	"autotiling"
-	"lightdm-mini-greeter"
 )
 
 sudo pacman -S ${packages[*]}
@@ -32,4 +34,3 @@ fi
 
 yay -S ${packages_yay[*]}
 
-git clone https://github.com/teb97/dotfiles ~/.config/
