@@ -14,6 +14,7 @@ packages=(
 	"xss-lock"
 	"xsecurelock"
 	"flameshot"
+ 	"brightnessctl"
 )
 
 packages_yay=(
