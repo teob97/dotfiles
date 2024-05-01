@@ -19,6 +19,7 @@ packages=(
 
 packages_yay=(
 	"autotiling"
+	"libinput-gestures"
 )
 
 sudo pacman -S ${packages[*]}
