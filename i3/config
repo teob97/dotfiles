@@ -214,4 +214,5 @@ exec_always --no-startup-id nm-applet
 exec_always --no-startup-id xset -b
 
 #My bindsym
-bindsym Print exec flameshot gui
+bindsym $mod+Print exec flameshot gui
+bindsym $mod+XF86Display exec ~/.config/share_screen/share_screen.sh
