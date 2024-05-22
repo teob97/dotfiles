@@ -182,24 +182,24 @@ gaps outer 3px
 #smart_gaps on
 
 # __cac:start
-set $background #1c2023
-set $foreground #c7ccd1
-set $dim_black #1c2023
-set $dim_red #c7ae95
-set $dim_green #95c7ae
-set $dim_yellow #aec795
-set $dim_blue #ae95c7
-set $dim_magenta #c795ae
-set $dim_cyan #95aec7
-set $dim_white #c7ccd1
-set $bright_black #747c84
-set $bright_red #c7ae95
-set $bright_green #95c7ae
-set $bright_yellow #aec795
-set $bright_blue #ae95c7
-set $bright_magenta #c795ae
-set $bright_cyan #95aec7
-set $bright_white #f3f4f5
+set $background #1d2021
+set $foreground #ebdbb2
+set $dim_black #282828
+set $dim_red #cc241d
+set $dim_green #98971a
+set $dim_yellow #d79921
+set $dim_blue #458588
+set $dim_magenta #b16286
+set $dim_cyan #689d6a
+set $dim_white #a89984
+set $bright_black #928374
+set $bright_red #fb4934
+set $bright_green #b8bb26
+set $bright_yellow #fabd2f
+set $bright_blue #83a598
+set $bright_magenta #d3869b
+set $bright_cyan #8ec07c
+set $bright_white #ebdbb2
 # __cac:end
 
 # class                 border  backgr. text    indicator child_border
