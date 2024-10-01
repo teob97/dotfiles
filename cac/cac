@@ -181,7 +181,7 @@ NUMBERED_COLOR_NAMES = {
 
 
 class XResources(ColorFormatter):
-    color_fmt = "*{name}: #{col_hex}"
+    color_fmt = "UXTerm.vt100.{name}: #{col_hex}"
     config_file = TILDE_HOME + "/.config/xresources/.Xresources"
     color_names = NUMBERED_COLOR_NAMES
 

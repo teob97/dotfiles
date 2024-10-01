@@ -30,7 +30,7 @@ exec_always --no-startup-id libinput-gestures-setup start
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec_always --no-startup-id xset s 300 5
+exec_always --no-startup-id xset s 600 5
 exec_always --no-startup-id xss-lock -n /usr/lib/xsecurelock/dimmer -l -- xsecurelock
 
 # Use pactl to adjust volume in PulseAudio.
