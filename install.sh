@@ -15,6 +15,8 @@ packages=(
 	"xsecurelock"
 	"flameshot"
  	"brightnessctl"
+	"acpi"
+	"autorandr"
 )
 
 packages_yay=(
